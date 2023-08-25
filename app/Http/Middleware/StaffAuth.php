@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class StaffAuth
@@ -15,6 +16,31 @@ class StaffAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        // Check if user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('/login');
+        }
+
+        $user = Auth::user();
+
+        if ($user->role == 4) {
+            return $next($request);
+        }
+
+        if ($user->role == 2) {
+            return redirect()->route('/admin');
+        }
+
+        if ($user->role == 3) {
+            return redirect()->route('/dept');
+        }
+
+        if ($user->role == 1) {
+            return redirect()->route('/super_admin');
+        }
+
+        if ($user->role == 5) {
+            return redirect()->route('/client');
+        }
     }
 }

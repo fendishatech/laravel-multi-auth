@@ -2,6 +2,11 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminAuth;
+use App\Http\Middleware\ClientAuth;
+use App\Http\Middleware\DepartmentAuth;
+use App\Http\Middleware\StaffAuth;
+use App\Http\Middleware\SuperAdminAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -40,7 +45,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -64,5 +69,10 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'superAdminAuth' => SuperAdminAuth::class,
+        'AdminAuth' => AdminAuth::class,
+        'departmentAuth' => DepartmentAuth::class,
+        'staffAuth' => StaffAuth::class,
+        'clientAuth' => ClientAuth::class,
     ];
 }
