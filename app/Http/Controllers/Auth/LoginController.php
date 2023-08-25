@@ -45,10 +45,10 @@ class LoginController extends Controller
         // validate credentials
         $credentials = $req->validate([
             'email' => 'required|email',
-
+            'password' => 'required'
         ]);
 
-        if (Auth::attempt()) {
+        if (Auth::attempt($credentials)) {
             $user_role = Auth::user()->role;
 
             switch ($user_role) {
